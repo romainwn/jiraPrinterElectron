@@ -1,15 +1,17 @@
 <div class="page-container">
 	<div class="container">
 		<!-- Jumbotron -->
-		<div class="jumbotron">
-			<h1 class="text-center">Jira Printer</h1>
-			<div class="text-center">
+		<md-card>
+			<md-card-title>
+				<span class="md-headline">Jira Printer</span>
+			</md-card-title>
+			<md-card-content>
 				<p>Print your Jira issues for your agile Scrum Board</p>
 				<hr/>
 				<p>Simply add the issues id you want to print and click 'Download issues'
 				then 'Print issues' to get the PDF file to print</p>
-			</div>
-		</div>
+		</md-card-content>
+		</md-card>
 
 		<!-- Login info -->
 		<div>
@@ -56,7 +58,7 @@
 			</div>
 			<div>
 				<form ng-submit="addIssue()">
-					<table class="table table-stripped table-bordered table-condensed">
+					<md-list>
 						<thead class="thead">
 							<tr>
 								<th class="col-md-2">Issue key</th>
@@ -64,7 +66,7 @@
 							</tr>
 						</thead>
 						<tbody class="tbody">
-							<tr name="issueIDForm" class="form-group">
+							<md-list-item name="issueIDForm" >
 								<td class="col-md-2">
 									<input name="issueIDInput"
 										   class="form-control"
@@ -84,9 +86,9 @@
 									<!-- Add the current issue ID to the list of issues -->
 									<md-button type="submit" class="md-raised md-primary md-hue-3">Add</md-button>
 								</td>
-							</tr>
-							<tr ng-repeat="issue in issues.slice().reverse()">
-								<td class="col-md-2">
+							</md-list-item>
+							<md-list-item ng-repeat="issue in issues.slice().reverse()">
+								<!-- <td class="col-md-2"> -->
 									<!--
 									   - TODO Find why bootstrap glyphicon are not rendered properly
 									   - and find a way to make them work
@@ -100,15 +102,17 @@
 									</span>
 
 									<span>{{issue.id}}</span>
-								</td>
-								<td class="col-md-10">
-									<md-button type="button" class="md-raised md-accent md-hue-2" ng-click="removeIssue(issue.id)">
+								<!-- </td> -->
+								<!-- <td class="col-md-10"> -->
+									<!-- <md-button type="button" class="md-raised md-accent md-hue-2" ng-click="removeIssue(issue.id)">
 										<span class="glyphicon glyphicon-minus"></span>Remove
-									</md-button>
-								</td>
-							</tr>
+									</md-button> -->
+									<md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
+									<!-- <md-icon md-svg-icon="alarm" ng-click="removeIssue(issue.id)" aria-label="Remove issue" class="md-secondary md-hue-3 glyphicon glyphicon-minus" ></md-icon> -->
+								<!-- </td> -->
+							</md-list-item>
 						</tbody>
-					</table>
+					</md-list>
 				</form>
 			</div>
 		</div>
