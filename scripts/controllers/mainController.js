@@ -157,7 +157,8 @@ app.controller('MainController', ['$scope', '$q', 'storageService', 'pdfService'
                 estimatedTime: issue.fields.timetracking.originalEstimate,
                 icon: issue.fields.issuetype.iconUrl,
                 priority: issue.fields.priority,
-                avatar: issue.fields.assignee.avatarUrls["48x48"]
+                avatar: issue.fields.assignee.avatarUrls["48x48"],
+                usPoints: issue.fields.customfield_10006
             };
             if(issue.fields.fixVersions.length > 0) {
                 formattedIssue.version = issue.fields.fixVersions[0].name;

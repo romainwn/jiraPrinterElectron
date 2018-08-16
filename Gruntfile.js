@@ -8,7 +8,7 @@ module.exports = function (grunt) {
 
     const BUILD_DIR = 'build/';
     const DIST_DIR = 'dist/';
-    const APP_NAME = 'APP Name';
+    const APP_NAME = 'jiraPrinter';
     const PLATFORM = 'win32';
     const ARCH = 'all';
     const ELECTRON_VERSION = '1.2.3';
@@ -131,7 +131,7 @@ module.exports = function (grunt) {
                     name: APP_NAME,
                     platform: PLATFORM,
                     arch: ARCH,
-                    version: ELECTRON_VERSION,
+                    appVersion: ELECTRON_VERSION,
                     asar: USE_ASAR
                 },
                 function (err) {

@@ -1,164 +1,160 @@
 <div class="page-container">
-    <div class="container">
-        <!-- Jumbotron -->
-        <div class="jumbotron">
-            <h1 class="text-center">Jira Printer</h1>
-            <div class="text-center">
-                <p>Print your Jira issues for your agile Scrum Board</p>
-                <hr/>
-                <p>Simply add the issues id you want to print and click 'Download issues'
-                then 'Print issues' to get the PDF file to print</p>
-            </div>
-        </div>
+	<div class="container">
+		<!-- Jumbotron -->
+		<div class="jumbotron">
+			<h1 class="text-center">Jira Printer</h1>
+			<div class="text-center">
+				<p>Print your Jira issues for your agile Scrum Board</p>
+				<hr/>
+				<p>Simply add the issues id you want to print and click 'Download issues' then 'Print issues' to get the PDF file to
+					print</p>
+			</div>
+		</div>
 
-        <!-- Login info -->
-        <div>
-            <div class="top-row clearfix">
-                <h2 class="pull-left">Login information</h2>
-                <!-- Button to toggle the login information form -->
-                <button class="btn pull-right" type="button" data-toggle="collapse" data-target="#jiraConfiguration" aria-expanded="false" aria-controls="jiraConfiguration">
-                    Toggle Jira configuration
-                </button>
-            </div>
-            <div class="collapse" ng-class="showJiraConfiguration" id="jiraConfiguration">
-            <form novalidate class="form-horizontal card card-body">
-                <div class="form-group">
-                    <label for="userName" class="col-sm-2 control-label">Username</label>
-                    <div class="col-sm-10">
-                        <input type="text"
-                               class="form-control"
-                               ng-model="jiraConfig.username"
-                               id="input-username"
-                               placeholder="Username"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" ng-model="jiraConfig.password" placeholder="Password"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="host" class="col-sm-2 control-label">Host</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-model="jiraConfig.host" placeholder="https://jira.mydomain.com"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="port" class="col-sm-2 control-label">Port</label>
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" ng-model="jiraConfig.port" placeholder="443"/>
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-        <hr/>
+		<!-- Login info -->
+		<div>
+			<div class="top-row clearfix">
+				<h2 class="pull-left">Login information</h2>
+				<!-- Button to toggle the login information form -->
+				<button class="btn pull-right" type="button" data-toggle="collapse" data-target="#jiraConfiguration" aria-expanded="false"
+				 aria-controls="jiraConfiguration">
+					Toggle Jira configuration
+				</button>
+			</div>
+			<div class="collapse" ng-class="showJiraConfiguration" id="jiraConfiguration">
+				<form novalidate class="form-horizontal card card-body">
+					<div class="form-group">
+						<label for="userName" class="col-sm-2 control-label">Username</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="jiraConfig.username" id="input-username" placeholder="Username" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-2 control-label">Password</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" ng-model="jiraConfig.password" placeholder="Password" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="host" class="col-sm-2 control-label">Host</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="jiraConfig.host" placeholder="https://jira.mydomain.com" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="port" class="col-sm-2 control-label">Port</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" ng-model="jiraConfig.port" placeholder="443" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<hr/>
 
-        <!-- Input issues -->
-        <div>
-            <div class="top-row clearfix">
-                <h2 class="pull-left">Input issues</h2>
-                <div class="pull-right">
-                    <input type="submit" class="btn" ng-click="downloadIssues()" value="Download issues"/>
-                    <input type="submit" class="btn" ng-click="generatePDF()" value="Print issues" ng-if="showPDF"/>
-                    <input type="submit" class="btn btn-danger" ng-click="removeAllIssues()" value="Remove issues" ng-show="issues.length > 0"/>
-                </div>
-            </div>
-            <div>
-                <form ng-submit="addIssue()">
-                    <table class="table table-stripped table-bordered table-condensed">
-                        <thead class="thead">
-                            <tr>
-                                <th class="col-md-2">Issue key</th>
-                                <th class="col-md-10">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="tbody">
-                            <tr name="issueIDForm" class="form-group">
-                                <td class="col-md-2">
-                                    <input name="issueIDInput"
-                                           class="form-control"
-                                           type="text"
-                                           ng-model="inputIssueID"
-                                           id="input-issue-id"
-                                           placeholder="PROJ-1"
-                                           required/>
-                                    <br ng-if="jiraError"/>
-                                    <div ng-if="jiraError" class="alert alert-danger">
-                                        <div ng-repeat="(status, message) in jiraLog">
-                                            <strong>{{status}} </strong>{{message}}
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="col-md-10">
-                                    <!-- Add the current issue ID to the list of issues -->
-                                    <input type="submit" class="btn btn-success btn-sm" value="Add"/>
-                                </td>
-                            </tr>
-                            <tr ng-repeat="issue in issues.slice().reverse()">
-                                <td class="col-md-2">
-                                    <!--
-                                       - TODO Find why bootstrap glyphicon are not rendered properly
-                                       - and find a way to make them work
-                                       -->
-                                    <span ng-show="issue.downloadSuccess !== undefined">
-                                        <i ng-if="issue.downloadSuccess" class="fa fa-check"></i>
-                                        <i ng-if="!issue.downloadSuccess" class="fa fa-times"></i>
-                                    </span>
-                                    <span ng-show="issue.downloading !== undefined && issue.downloadSuccess === undefined">
-                                        <i class="rotating-img fa fa-refresh"></i>
-                                    </span>
+		<!-- Input issues -->
+		<div>
+			<div class="top-row clearfix">
+				<h2 class="pull-left">Input issues</h2>
+				<div class="pull-right">
+					<input type="submit" class="btn" ng-click="downloadIssues()" value="Download issues" />
+					<input type="submit" class="btn" ng-click="generatePDF()" value="Print issues" ng-if="showPDF" />
+					<input type="submit" class="btn btn-danger" ng-click="removeAllIssues()" value="Remove issues" ng-show="issues.length > 0"
+					/>
+				</div>
+			</div>
+			<div>
+				<form ng-submit="addIssue()">
+					<table class="table table-stripped table-bordered table-condensed">
+						<thead class="thead">
+							<tr>
+								<th class="col-md-2">Issue key</th>
+								<th class="col-md-10">Action</th>
+							</tr>
+						</thead>
+						<tbody class="tbody">
+							<tr name="issueIDForm" class="form-group">
+								<td class="col-md-2">
+									<input name="issueIDInput" class="form-control" type="text" ng-model="inputIssueID" id="input-issue-id" placeholder="PROJ-1"
+									 required/>
+									<br ng-if="jiraError" />
+									<div ng-if="jiraError" class="alert alert-danger">
+										<div ng-repeat="(status, message) in jiraLog">
+											<strong>{{status}} </strong>{{message}}
+										</div>
+									</div>
+								</td>
+								<td class="col-md-10">
+									<!-- Add the current issue ID to the list of issues -->
+									<input type="submit" class="btn btn-success btn-sm" value="Add" />
+								</td>
+							</tr>
+							<tr ng-repeat="issue in issues.slice().reverse()">
+								<td class="col-md-2">
+									<!--
+									   - TODO Find why bootstrap glyphicon are not rendered properly
+									   - and find a way to make them work
+									   -->
+									<span ng-show="issue.downloadSuccess !== undefined">
+										<i ng-if="issue.downloadSuccess" class="fa fa-check"></i>
+										<i ng-if="!issue.downloadSuccess" class="fa fa-times"></i>
+									</span>
+									<span ng-show="issue.downloading !== undefined && issue.downloadSuccess === undefined">
+										<i class="rotating-img fa fa-refresh"></i>
+									</span>
 
-                                    <span>{{issue.id}}</span>
-                                </td>
-                                <td class="col-md-10">
-                                    <button type="button" class="btn btn-danger btn-sm" ng-click="removeIssue(issue.id)">
-                                        <span class="glyphicon glyphicon-minus"></span>Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
-        </div>
-        <hr/>
+									<span>{{issue.id}}</span>
+								</td>
+								<td class="col-md-10">
+									<button type="button" class="btn btn-danger btn-sm" ng-click="removeIssue(issue.id)">
+										<span class="glyphicon glyphicon-minus"></span>Remove
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+		<hr/>
 
-        <!-- Printed issues -->
-        <div ng-if="showPDF" id="pdf">
-            <div class="issue-container" ng-repeat="issues in formattedIssues">
-                <div class="issue" ng-repeat="issue in issues">
-                    <div class="issue-content">
-                        <div class="issue-header">
-                            <div class="issue-icon">
-                                <img ng-src="{{issue.icon}}">
-                            </div>
-                            <div class="issue-icon">
-                                <img ng-src="{{issue.priority.iconUrl}}">
-                            </div>
-                            <div class="issue-key">{{ issue.reference }}</div>
-                            <div class="row-end">
-                                <img class="gravatar-img" ng-src="{{issue.avatar}}">
-                            </div>
-                        </div>
-                        <div class="issue-summary">
-                            {{issue.summary}}
-                            <br>
-                            <div class="issue-time" ng-show="issue.estimatedTime">
-                                Temps estimé : {{ issue.estimatedTime }}
-                            </div>
-                        </div>
-                        <div class="issue-footer">
-                            <div class="label" ng-show="issue.version">
-                                {{ issue.version }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="issue-color" ng-class="issue.priority.name"></div>
-                </div>
-                <br/>
-            </div>
-        </div>
-    </div>
+		<!-- Printed issues -->
+		<div ng-if="showPDF" id="pdf">
+			<div class="issue-container" ng-repeat="issues in formattedIssues">
+				<div class="issue" ng-repeat="issue in issues">
+					<div class="issue-content">
+						<div class="issue-header">
+							<div class="issue-icon">
+								<img ng-src="{{issue.icon}}">
+							</div>
+							<div class="issue-icon">
+								<img ng-src="{{issue.priority.iconUrl}}">
+							</div>
+							<div class="issue-key">{{ issue.reference }}</div>
+							<div class="row-end">
+								<img class="gravatar-img" ng-src="{{issue.avatar}}">
+							</div>
+						</div>
+						<div class="issue-summary">
+							{{issue.summary}}
+							<br>
+							<div class="issue-time" ng-show="issue.estimatedTime">
+								Temps estimé : {{ issue.estimatedTime }}
+							</div>
+						</div>
+						<div class="issue-footer">
+							<div class="label" ng-show="issue.version">
+								{{ issue.version }}
+							</div>
+							<div class="label issue-uspoints" ng-show="issue.usPoints">
+								{{ issue.usPoints }}
+							</div>
+						</div>
+					</div>
+					<div class="issue-color" ng-class="issue.priority.name"></div>
+				</div>
+				<br/>
+			</div>
+		</div>
+	</div>
 </div>
